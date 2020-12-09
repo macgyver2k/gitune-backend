@@ -1,3 +1,4 @@
+using Gitune.Api.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,11 @@ namespace Gitune.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<EventHub>();
+            services.AddSingleton<IEventSink>(provider => provider.GetService<EventHub>());
+            services.AddSingleton<IEventSource>(provider => provider.GetService<EventHub>());
+
+            services.AddCustomGraphQL();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -27,14 +33,7 @@ namespace Gitune.Api
             }
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            app.UseCustomGraphQL();
         }
     }
 }
