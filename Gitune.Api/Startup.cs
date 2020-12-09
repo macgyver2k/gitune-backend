@@ -1,4 +1,5 @@
 using Gitune.Api.GraphQL;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Gitune.Api
@@ -20,6 +22,8 @@ namespace Gitune.Api
             services.AddSingleton<EventHub>();
             services.AddSingleton<IEventSink>(provider => provider.GetService<EventHub>());
             services.AddSingleton<IEventSource>(provider => provider.GetService<EventHub>());
+
+            services.AddMediatR(Assembly.Load("Gitune.Api"));
 
             services.AddCustomGraphQL();
         }
