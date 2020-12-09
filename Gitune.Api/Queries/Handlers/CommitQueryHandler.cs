@@ -32,7 +32,7 @@ namespace Gitune.Api.Queries.Handlers
 
             var filter = new CommitFilter()
             {
-                SortBy = CommitSortStrategies.Topological
+                SortBy = CommitSortStrategies.Time
             };
 
             var commitInfos = repository

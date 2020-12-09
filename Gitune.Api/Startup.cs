@@ -19,6 +19,8 @@ namespace Gitune.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors( options => options.AddDefaultPolicy( builder => builder.WithOrigins( "http://localhost:4200" ).AllowAnyHeader()) );
+
             services.AddSingleton<EventHub>();
             services.AddSingleton<IEventSink>(provider => provider.GetService<EventHub>());
             services.AddSingleton<IEventSource>(provider => provider.GetService<EventHub>());
@@ -37,7 +39,11 @@ namespace Gitune.Api
             }
 
             app.UseRouting();
+            app.UseCors();
+            
             app.UseCustomGraphQL();
+
+            
         }
     }
 }

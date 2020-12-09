@@ -9,8 +9,6 @@ namespace Gitune.Api.GraphQL
         public GituneSchema(IServiceProvider provider) : base(provider)
         {
             Query = provider.GetService<GituneQuery>();
-            Mutation = provider.GetService<GituneMutation>();
-            Subscription = provider.GetService<GituneSubscription>();
         }
     }
 }
