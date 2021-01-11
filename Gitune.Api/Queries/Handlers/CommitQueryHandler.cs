@@ -36,10 +36,8 @@ namespace Gitune.Api.Queries.Handlers
             };
 
             var commitInfos = repository
-                .Commits
-                .QueryBy(
-                    filter
-                )
+                .Branches[ request.Branch ]
+                .Commits                
                 .Select(
                     commit => new CommitInfo(
                         commit.Sha,
@@ -50,6 +48,7 @@ namespace Gitune.Api.Queries.Handlers
                         commit.Parents.Select(parent => parent.Sha).ToList()
                     )
                 )
+                .Reverse()
                 .ToList();
 
             return await Task.FromResult(
